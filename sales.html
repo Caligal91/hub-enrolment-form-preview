@@ -27,6 +27,9 @@ form{max-width:640px}small{color:#666}table{width:100%;border-collapse:collapse}
 <div id="vd" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span id="vds">Dashboard</span></div></div><h2 id="vdh">My dashboard</h2>
 <div id="cards" style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 18px"></div>
 <h3>Forms</h3><table id="dtab"></table><small>Preview with fake data. A salesperson sees only the forms they sent. An admin sees everyone, with a filter by salesperson.</small></div>
+<div id="vq" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Ask the sales bot</span></div></div><h2>Ask a question</h2><p style="color:#666">Ask about the sales training, the patter (what to say on a call), pricing, or how a form works. Answers come from the Pioneers sales training and patter.</p>
+<div id="qlog" style="max-width:720px;min-height:120px;border:1px solid #eee;border-radius:8px;padding:12px;background:#fafafa;margin-bottom:10px"><div style="color:#888">Try: "What do I say when a parent says it is too expensive?"</div></div>
+<form id="qf" style="display:flex;gap:8px;max-width:720px"><input class="form-control" id="qi" placeholder="Type your question" required><button class="theme-btn" type="submit">Ask</button></form><small>Preview: the answers below are made-up examples. In the Hub the bot reads the real sales training and patter.</small></div>
 <div id="v4" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Pioneers Tutoring &amp; Speech</span></div></div><h2>Sent forms</h2><p>Forms you have sent. Click one to see its delivery and progress.</p><table id="sentl"></table></div>
 <div id="v1" class="card-block">
 <div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Pioneers Tutoring &amp; Speech</span></div></div>
@@ -85,14 +88,15 @@ document.getElementById('cards').innerHTML=c('Sent this week',rows.length,'#F47A
 document.getElementById('dtab').innerHTML='<tr><th align=left>Parent</th><th align=left>Form</th><th align=left>Sent by</th><th align=left>Status</th><th align=left>Day</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2].replace('Sales: ','')+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>'}).join('')}
 
 function nav(items,active){return items.map(function(i){return '<a class="'+(i[0]===active?'on':'')+'" onclick="go(\''+i[0]+'\')">'+i[1]+'</a>'}).join('')}
-function views(){['vl','vp','v1','v2','v3','v4','vd'].forEach(function(v){document.getElementById(v).style.display='none'})}
-function renderSide(active){var items=ROLE==='admin'?[['dash','Dashboard'],['stu','Students'],['send','Pioneers Enrolments Hub'],['terms','Enrolment Terms &amp; Conditions'],['msg','Messages']]:[['dash','My dashboard'],['send','Send enrolment forms'],['sent','Sent forms']];
+function views(){['vl','vp','v1','v2','v3','v4','vd','vq'].forEach(function(v){document.getElementById(v).style.display='none'})}
+function renderSide(active){var items=ROLE==='admin'?[['dash','Dashboard'],['stu','Students'],['send','Pioneers Enrolments Hub'],['terms','Enrolment Terms &amp; Conditions'],['msg','Messages']]:[['dash','My dashboard'],['send','Send enrolment forms'],['sent','Sent forms'],['ask','Ask a question']];
 document.getElementById('sb').innerHTML=nav(items,active)+'<div class="who">Signed in as<br><b style="display:inline;color:#fff;font-size:12px;margin:0">'+(ROLE==='admin'?'Alicia (admin)':'Sales person')+'</b><br><a onclick="signOut()" style="padding:6px 0">Sign out</a></div>'}
 function go(k){views();renderSide(k);
 if(k==='send'){document.getElementById('v1').style.display='block'}
 else if(k==='terms'){showTerms()}
 else if(k==='sent'){showSent()}
 else if(k==='dash'){showDash()}
+else if(k==='ask'){document.getElementById('vq').style.display='block'}
 else{var n={stu:'Students',msg:'Messages'}[k];document.getElementById('vph').textContent=n;document.getElementById('vp').style.display='block'}}
 function signIn(r){ROLE=r||'sales';go('dash')}
 function signOut(){views();document.getElementById('side').style.display='none';document.getElementById('vl').style.display='block'}
@@ -114,6 +118,10 @@ function startLive(){var r=document.getElementById('lrows'),st=document.getEleme
 var names=(document.getElementById('pl').innerText||'').split('\n').filter(Boolean);
 timers.push(setTimeout(function(){st.innerHTML='<b style="color:#1a7f37">Parent is on the form now</b>';sp.textContent='Step: Your details (form 1)'},7000));
 LIVE.forEach(function(l,i){timers.push(setTimeout(function(){r.insertAdjacentHTML('beforeend','<tr><td style="width:40%;color:#6B625B">'+l[0]+'</td><td><b>'+l[1]+'</b></td></tr>');if(i>=5)sp.textContent='Step: Terms and signing';if(i===6){st.innerHTML='<b style="color:#1a7f37">Signed</b>';sp.textContent='Form complete'}},8500+i*600))})}
+
+document.getElementById('qf').addEventListener('submit',function(e){e.preventDefault();var q=document.getElementById('qi').value,l=document.getElementById('qlog');if(l.firstChild&&l.firstChild.style&&l.firstChild.style.color==='rgb(136, 136, 136)')l.innerHTML='';
+l.insertAdjacentHTML('beforeend','<div style="margin:8px 0;text-align:right"><span style="background:#F47A21;color:#fff;border-radius:12px;padding:6px 12px;display:inline-block">'+q.replace(/</g,'&lt;')+'</span></div><div id="thk" style="color:#888">Thinking...</div>');document.getElementById('qi').value='';
+setTimeout(function(){document.getElementById('thk').outerHTML='<div style="margin:8px 0"><span style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:8px 12px;display:inline-block;max-width:90%">Example answer: acknowledge the concern, then bring it back to the child\'s goal and what is included. <small style="display:block;color:#888;margin-top:4px">Source: Sales patter, handling price objections (example)</small></span></div>'},1200)});
 function resend(){var v=[];if(document.getElementById('vt').checked)v.push('sms');if(document.getElementById('ve').checked)v.push('email');if(!v.length){alert('Tick Text or Email on the send screen first (preview).');return}startDelivery(v,{p:document.getElementById('pp').value,e:document.getElementById('pe').value})}
 function openSent(i){var o=ORDER_SENT[i];views();document.getElementById('v2').style.display='block'}
 
