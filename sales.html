@@ -29,6 +29,9 @@ form{max-width:640px}small{color:#666}table{width:100%;border-collapse:collapse}
 <div class="form-group"><label>Parent's mobile</label><input class="form-control" id="pp" placeholder="0400 000 000" required></div>
 <div class="form-group"><label>Parent's email</label><input type="email" class="form-control" id="pe" required></div>
 <div class="form-group"><label>Child's name (optional)</label><input class="form-control" id="sn"></div>
+<div class="form-group"><label>Add special conditions (optional)</label><select class="form-control" id="sk"><option value="">None</option><option value="trial">Trial - 4 weeks (initial assessment, then 3 weeks of paid sessions)</option><option value="custom">Other - I'll type the conditions</option></select>
+<div id="st" style="display:none;margin-top:8px"><label style="font-weight:normal">Sessions per week during the 3 paid weeks</label><input type="number" class="form-control" id="ss" min="1" max="7" value="1" style="max-width:120px"><small>The parent sees: Trial, 4 weeks. Week 1 is the initial assessment. Weeks 2 to 4 are that many sessions a week, and the trial sessions are paid. They must agree to it before they sign.</small></div>
+<div id="sc" style="display:none;margin-top:8px"><textarea class="form-control" id="stx" rows="4" maxlength="1000" placeholder="Type the special conditions the parent has agreed to"></textarea><small>The parent sees this exactly as typed and must agree to it before they sign.</small></div></div>
 <div class="form-group"><label>How to send</label><select class="form-control">
 <option>Just make the link (I'll send it myself)</option>
 <option disabled>Text it to the parent (switched off on this server)</option>
@@ -45,6 +48,8 @@ form{max-width:640px}small{color:#666}table{width:100%;border-collapse:collapse}
 <div style="display:flex;justify-content:space-between;flex-wrap:wrap"><h2 id="t" style="margin:0"></h2><a href="#" onclick="location.reload();return false">Back to all</a></div>
 <p>Status: <strong>sent</strong></p>
 <div class="pack" id="pk" style="max-width:720px"><b>Forms sent together (the parent does them in this order, one link)</b><ol id="pl" style="margin:6px 0 0 18px;padding:0"></ol><small>The private link below opens the first form. When it is signed, the parent moves on to the next one with their details already filled in.</small></div>
+<div class="pack" id="spk" style="max-width:720px;display:none"><b>Special conditions</b><div id="spt" style="margin-top:4px"></div></div>
+<div id="spp" style="display:none;max-width:420px;margin:12px 0"><h3>What the parent sees before the Terms step</h3><div class="phone"><img src="logo.svg" alt="" style="height:30px"><h3 id="sph" style="margin-top:8px"></h3><div id="spb" style="text-align:left;font-size:14px;line-height:1.5"></div><label style="display:block;text-align:left;margin-top:10px;font-weight:normal"><input type="checkbox"> I agree to these special conditions.</label><a class="go" href="#" onclick="return false">Continue &rarr;</a></div></div>
 <div class="form-group" style="max-width:720px"><label>Private link for the parent (expires in 30 days)</label>
 <div style="display:flex;gap:8px"><input class="form-control" readonly value="https://staging.pioneerslearninghub.com.au/enrol/9f3c...(long private code)"><button class="theme-btn" type="button">Copy</button></div>
 <small>Anyone with this link can fill in the form, so only send it to the parent.</small></div>
@@ -58,6 +63,7 @@ var order=[];
 document.querySelectorAll('input[name=forms]').forEach(function(cb){cb.addEventListener('change',function(){
 order=order.filter(function(v){return v!==cb.value});if(cb.checked)order.push(cb.value);
 document.querySelectorAll('input[name=forms]').forEach(function(c){var o=c.parentNode.querySelector('.ord');if(o)o.remove();var n=order.indexOf(c.value);if(n>-1){var t=document.createElement('span');t.className='ord';t.textContent=n+1;c.parentNode.insertBefore(t,c.nextSibling);}});});});
+var sk=document.getElementById('sk');sk.addEventListener('change',function(){document.getElementById('st').style.display=sk.value==='trial'?'block':'none';document.getElementById('sc').style.display=sk.value==='custom'?'block':'none';});
 document.getElementById('f').addEventListener('submit',function(e){e.preventDefault();
 if(!order.length){alert('Please tick at least one form.');return;}
 var T={};document.querySelectorAll('input[name=forms]').forEach(function(c){T[c.value]=c.getAttribute('data-t')});
@@ -68,5 +74,12 @@ document.getElementById('pk').style.display=names.length>1?'block':'none';
 document.getElementById('nx').textContent=names[1]||'';
 document.querySelector('.phone').style.display=names.length>1?'block':'none';
 document.querySelector('h3[style]').style.display=names.length>1?'block':'none';
+var kind=sk.value,sp=document.getElementById('spk'),spp=document.getElementById('spp');sp.style.display=spp.style.display='none';
+if(kind==='trial'){var n=Math.max(1,Math.min(7,parseInt(document.getElementById('ss').value,10)||1)),pl=n===1?'':'s';
+var txt='Trial, 4 weeks: initial assessment, then 3 paid weeks of '+n+' session'+pl+' a week.';
+sp.style.display='block';document.getElementById('spt').textContent=txt;spp.style.display='block';document.getElementById('sph').textContent='Your trial';
+document.getElementById('spb').innerHTML='<b>Trial length</b> 4 weeks<br><b>Week 1</b> Initial assessment<br><b>Weeks 2 to 4</b> '+n+' session'+pl+' a week<br><b>Payment</b> The trial sessions are paid';}
+else if(kind==='custom'){var t=document.getElementById('stx').value.trim();if(!t){alert("Please type the special conditions.");return;}
+sp.style.display='block';document.getElementById('spt').textContent=t;spp.style.display='block';document.getElementById('sph').textContent='Special conditions';document.getElementById('spb').textContent=t;}
 document.getElementById('v1').style.display='none';document.getElementById('v2').style.display='block';});
 </script></body></html>
