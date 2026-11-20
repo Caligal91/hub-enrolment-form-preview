@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enrolment form – TEST PREVIEW</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#F47A1F;--brand-dark:#E0690F;--b50:#FFF6EF;--b100:#FFE9D6;--ink:#1F1A17;--muted:#6B625B}
+*{box-sizing:border-box}body{margin:0;font-family:Outfit,system-ui,sans-serif;color:var(--ink);background:var(--b50)}
+h1,h2,h3,.btn{font-family:Poppins,system-ui,sans-serif}
+.banner{background:var(--ink);color:#fff;text-align:center;font-size:13px;padding:8px 12px}
+.tabs{display:flex;gap:8px;justify-content:center;padding:14px}
+.tab{border:0;border-radius:999px;padding:10px 18px;font:600 14px Poppins;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--b100);cursor:pointer}
+.tab.on{background:var(--brand);color:#fff}
+.wrap{max-width:520px;margin:0 auto;padding:0 12px 40px}
+.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 25px 50px -12px rgba(0,0,0,.18);position:relative}
+.top{display:flex;align-items:center;gap:10px}.bar{flex:1;height:6px;border-radius:99px;background:var(--b100)}
+.bar>i{display:block;height:6px;border-radius:99px;background:var(--brand);transition:width .3s}
+.top span{font-size:12px;color:var(--muted);font-weight:500}
+.logo{font:700 15px Poppins;margin:0 0 18px}.logo b{color:var(--brand)}
+h2{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:20px 0 6px}
+h3{font-size:21px;font-weight:700;line-height:1.3;letter-spacing:-.01em;margin:22px 0 4px}
+p{color:var(--muted);font-size:15px;line-height:1.55;margin:6px 0}
+.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:99px;padding:6px 14px;font:600 13px Outfit;color:#C4560A;box-shadow:inset 0 0 0 1px var(--b100)}
+.pill:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--brand)}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;border:0;border-radius:16px;padding:14px 16px;font:600 17px Outfit;color:var(--ink);background:#fff;box-shadow:inset 0 0 0 1px var(--b100);margin-top:16px;outline:none}
+input:focus,textarea:focus{box-shadow:inset 0 0 0 2px var(--brand)}
+.lab{font-size:13px;color:var(--muted);margin-top:14px;display:block;font-weight:500}.lab+input{margin-top:4px}
+.pre{display:inline-block;background:var(--b50);color:#C4560A;font-size:12px;font-weight:600;border-radius:99px;padding:2px 9px;margin-left:6px}
+.btn{margin-top:24px;width:100%;border:0;border-radius:999px;background:var(--brand);color:#fff;font-weight:600;font-size:16px;padding:16px 24px;height:56px;box-shadow:0 10px 24px -8px rgba(244,122,31,.8);cursor:pointer}
+.btn:hover{background:var(--brand-dark)}.btn:disabled{opacity:.4;box-shadow:none;cursor:not-allowed}
+.back{background:none;border:0;color:var(--muted);font:500 14px Outfit;margin-top:12px;cursor:pointer;width:100%}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opt{border:0;text-align:left;border-radius:16px;padding:15px 16px;font:500 17px Outfit;background:#fff;box-shadow:inset 0 0 0 1px var(--b100);cursor:pointer;color:var(--ink)}
+.opt.on{box-shadow:inset 0 0 0 2px var(--brand);background:var(--b50);font-weight:600}
+.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--b100);font-size:16px}.row span:first-child{color:var(--muted)}.row b{text-align:right;font-weight:600}
+.chk{display:flex;gap:12px;align-items:flex-start;margin-top:18px;font-size:15px;line-height:1.5;cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--brand);margin-top:2px;flex:none}
+canvas{width:100%;height:170px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--b100);margin-top:16px;touch-action:none;display:block}
+.sig-note{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px}
+.link{color:var(--brand-dark);background:none;border:0;font:600 13px Outfit;cursor:pointer;padding:0}
+.tick{width:72px;height:72px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:38px;margin:10px auto 0}
+.sms{background:#E9E9EB;border-radius:20px 20px 20px 6px;padding:14px 16px;margin-top:16px;font-size:15px;color:var(--ink);line-height:1.5}
+.sms u{color:#0B6BDE}
+.contact{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--b100);margin-top:10px;cursor:pointer;width:100%;border:0;text-align:left;font:500 16px Outfit;color:var(--ink)}
+.contact.on{box-shadow:inset 0 0 0 2px var(--brand);background:var(--b50)}
+.av{width:38px;height:38px;border-radius:50%;background:var(--b100);color:#C4560A;display:grid;place-items:center;font:700 14px Poppins;flex:none}
+.contact small{display:block;color:var(--muted);font-size:13px}
+.fade{animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--b100);color:#C4560A}.chip.g{background:#DDF3E4;color:#17763A}
+</style></head><body>
+<div class="banner">TEST PREVIEW · all names and details below are made up · nothing is saved or sent</div>
+<div class="tabs"><button class="tab on" data-t="sales">1. Salesperson view</button><button class="tab" data-t="parent">2. Parent view (phone)</button></div>
+<div class="wrap"><div class="card" id="card"></div></div>
+<script>
+const D={parent:"Sample Parent",email:"sample.parent@example.com",phone:"0400 000 000",child:"Sam",childFull:"Sam Sample",dob:"12/03/2016",year:"Year 4",school:"Example Primary School"};
+const card=document.getElementById('card');let tab='sales',step=0,svc='Speech assessment',sel=0,agree=false;
+const logo='<p class="logo"><b>Pioneers</b> Tutoring &amp; Speech</p>';
+const top=(i,n)=>`<div class="top"><div class="bar"><i style="width:${(i+1)/n*100}%"></i></div><span>${i+1}/${n}</span></div>`;
+const nxt=(l='Next')=>`<button class="btn" id="next">${l} →</button>`;
+const bk=()=>step>0?'<button class="back" id="back">Back</button>':'';
+const people=[["SP","Sample Parent","sample.parent@example.com · 0400 000 000"],["TF","Test Family","test.family@example.com · 0400 111 111"],["DP","Demo Parent","demo.parent@example.com · 0400 222 222"]];
+const sales=[
+()=>`${top(0,4)}<h2>Send an enrolment form</h2><p>Pick the contact from GoHighLevel. Their details fill in by themselves.</p>${people.map((p,i)=>`<button class="contact ${i==sel?'on':''}" data-p="${i}"><span class="av">${p[0]}</span><span><b>${p[1]}</b><small>${p[2]}</small></span></button>`).join('')}${nxt()}`,
+()=>`${top(1,4)}<h3>Check what we already know</h3><p>Pulled from the Hub student record. Nothing to type unless it is wrong.</p>
+<div class="row"><span>Parent</span><b>${D.parent}</b></div><div class="row"><span>Email</span><b>${D.email}</b></div><div class="row"><span>Mobile</span><b>${D.phone}</b></div><div class="row"><span>Child</span><b>${D.childFull} · ${D.year}</b></div><div class="row"><span>School</span><b>${D.school}</b></div>
+<p style="margin-top:14px"><span class="pre" style="margin-left:0">pre-filled from the Hub</span></p>${nxt()}${bk()}`,
+()=>`${top(2,4)}<h3>Which service?</h3><div class="opts">${['Speech assessment','Speech therapy','Literacy assessment','Literacy Accelerator (13 weeks)'].map(s=>`<button class="opt ${s==svc?'on':''}" data-s="${s}">${s}</button>`).join('')}</div>${nxt()}${bk()}`,
+()=>`${top(3,4)}<h3>Send it to ${D.parent}</h3><p>The parent gets this text. Pick how to send.</p><div class="sms">Hi ${D.parent.split(' ')[0]}, here is the enrolment form for ${D.child}. It takes about 3 minutes on your phone: <u>pioneerslearninghub.com.au/enrol/ab12cd</u></div>
+<div class="opts"><button class="opt on">SMS (Aircall)</button><button class="opt">Email</button></div><button class="btn" id="send">Send form (demo only)</button>${bk()}`,
+()=>`<div class="tick">✓</div><h2 style="text-align:center">Sent (pretend)</h2><p style="text-align:center">In the real thing you would now see the status update live:</p><div class="status" style="justify-content:center"><span class="chip g">Sent 2:41pm</span><span class="chip">Opened</span><span class="chip">Signed</span><span class="chip">In GHL</span><span class="chip">In TutorBird</span></div><p style="margin-top:16px">When the parent signs, the answers land in the Hub as separate fields, a signed PDF is saved on the GHL contact, and GHL shows "signed". No retyping.</p><button class="btn" id="goparent">See what the parent sees →</button>`];
+const par=[
+()=>`${logo}${top(0,9)}<span class="pill" style="margin-top:20px">${svc} · ${D.child}</span><h2>Let's get ${D.child} enrolled</h2><p>A few quick questions, one at a time. Most details are already filled in. About 3 minutes.</p>${nxt('Start')}<p style="text-align:center;font-size:13px">We'll never share your details.</p>`,
+()=>`${logo}${top(1,9)}<h3>Is this you?</h3><label class="lab">Your name <span class="pre">pre-filled</span></label><input type="text" value="${D.parent}"><label class="lab">Mobile <span class="pre">pre-filled</span></label><input type="tel" value="${D.phone}"><label class="lab">Email <span class="pre">pre-filled</span></label><input type="email" value="${D.email}">${nxt()}${bk()}`,
+()=>`${logo}${top(2,9)}<h3>Is this your child?</h3><label class="lab">Full name <span class="pre">pre-filled</span></label><input type="text" value="${D.childFull}"><label class="lab">Date of birth <span class="pre">pre-filled</span></label><input type="text" value="${D.dob}">${nxt()}${bk()}`,
+()=>`${logo}${top(3,9)}<h3>What year is ${D.child} in?</h3><div class="opts">${['Prep','Year 1–2','Year 3–4','Year 5–6','High school'].map(y=>`<button class="opt ${y=='Year 3–4'?'on':''}" data-y="1">${y}</button>`).join('')}</div>${nxt()}${bk()}`,
+()=>`${logo}${top(4,9)}<h3>What are you most worried about?</h3><p>A sentence or two is plenty. Skip if you like.</p><textarea rows="4" placeholder="e.g. Hard to understand when he talks, school has flagged it" style="font-weight:500"></textarea>${nxt()}${bk()}`,
+()=>`${logo}${top(5,9)}<h3>Quick check</h3><p>Here's what you're enrolling in.</p><div class="row"><span>Child</span><b>${D.childFull}</b></div><div class="row"><span>Service</span><b>${svc}</b></div><div class="row"><span>Where</span><b>Online (Zoom)</b></div><div class="row"><span>Fee</span><b>from our price list</b></div>${nxt()}${bk()}`,
+()=>`${logo}${top(6,9)}<h3>Terms and consent</h3><p>Please read, then tick.</p><div style="max-height:130px;overflow:auto;border-radius:16px;box-shadow:inset 0 0 0 1px var(--b100);padding:12px 14px;font-size:14px;color:var(--muted);margin-top:14px">Sample terms. In the real form this shows our actual terms, cancellation policy and privacy notice. Sample terms. Sample terms. Sample terms. Sample terms. Sample terms. Sample terms. Sample terms.</div><label class="chk"><input type="checkbox" id="agree" ${agree?'checked':''}><span>I have read and agree to the terms, and I consent to ${D.child} receiving this service.</span></label><button class="btn" id="next" ${agree?'':'disabled'}>Next →</button>${bk()}`,
+()=>`${logo}${top(7,9)}<h3>Sign with your finger</h3><p>This is your signature on the enrolment.</p><canvas id="cv"></canvas><div class="sig-note"><span>${D.parent} · <span id="when"></span></span><button class="link" id="clr">Clear</button></div><button class="btn" id="next" disabled>Sign and submit</button>${bk()}`,
+()=>`${logo}<div class="tick">✓</div><h2 style="text-align:center">All done, thank you!</h2><p style="text-align:center">${D.child} is enrolled. A signed copy is on its way to ${D.email}. Someone will be in touch to book the first session.</p><button class="btn" id="restart">Back to the start (demo)</button>`];
+function draw(){const s=tab=='sales'?sales:par;card.innerHTML='<div class="fade">'+s[step]()+'</div>';wire(s)}
+function wire(s){const g=i=>card.querySelector(i);
+ if(g('#next'))g('#next').onclick=()=>{if(step<s.length-1){step++;draw()}};
+ if(g('#back'))g('#back').onclick=()=>{step--;draw()};
+ card.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{sel=+b.dataset.p;draw()});
+ card.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{svc=b.dataset.s;draw()});
+ card.querySelectorAll('[data-y]').forEach(b=>b.onclick=()=>{card.querySelectorAll('[data-y]').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
+ if(g('#send'))g('#send').onclick=()=>{step++;draw()};
+ if(g('#goparent'))g('#goparent').onclick=()=>setTab('parent');
+ if(g('#restart'))g('#restart').onclick=()=>{step=0;agree=false;draw()};
+ const a=g('#agree');if(a)a.onchange=()=>{agree=a.checked;g('#next').disabled=!agree};
+ const cv=g('#cv');if(cv){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;const c=cv.getContext('2d');c.scale(d,d);c.lineWidth=2.5;c.lineCap='round';c.strokeStyle='#1F1A17';
+  g('#when').textContent=new Date().toLocaleString('en-AU',{timeZone:'Australia/Sydney',dateStyle:'medium',timeStyle:'short'});
+  let dn=false;const P=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
+  cv.onpointerdown=e=>{dn=true;cv.setPointerCapture(e.pointerId);c.beginPath();c.moveTo(...P(e))};
+  cv.onpointermove=e=>{if(!dn)return;c.lineTo(...P(e));c.stroke();g('#next').disabled=false};
+  cv.onpointerup=()=>dn=false;g('#clr').onclick=()=>{c.clearRect(0,0,cv.width,cv.height);g('#next').disabled=true}}}
+function setTab(t){tab=t;step=0;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t==t));draw();scrollTo(0,0)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.t));draw();
+</script></body></html>
