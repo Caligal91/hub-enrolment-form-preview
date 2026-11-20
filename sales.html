@@ -84,7 +84,7 @@ document.getElementById('cards').innerHTML=c('Sent this week',rows.length,'#F47A
 document.getElementById('dtab').innerHTML='<tr><th align=left>Parent</th><th align=left>Form</th><th align=left>Sent by</th><th align=left>Status</th><th align=left>Day</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2].replace('Sales: ','')+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>'}).join('')}
 
 function nav(items,active){return items.map(function(i){return '<a class="'+(i[0]===active?'on':'')+'" onclick="go(\''+i[0]+'\')">'+i[1]+'</a>'}).join('')}
-function views(){['vl','vp','v1','v2','v3','v4'].forEach(function(v){document.getElementById(v).style.display='none'})}
+function views(){['vl','vp','v1','v2','v3','v4','vd'].forEach(function(v){document.getElementById(v).style.display='none'})}
 function renderSide(active){var items=ROLE==='admin'?[['dash','Dashboard'],['stu','Students'],['send','Pioneers Enrolments Hub'],['terms','Enrolment Terms &amp; Conditions'],['msg','Messages']]:[['dash','My dashboard'],['send','Send enrolment forms'],['sent','Sent forms']];
 document.getElementById('sb').innerHTML=nav(items,active)+'<div class="who">Signed in as<br><b style="display:inline;color:#fff;font-size:12px;margin:0">'+(ROLE==='admin'?'Alicia (admin)':'Sales person')+'</b><br><a onclick="signOut()" style="padding:6px 0">Sign out</a></div>'}
 function go(k){views();renderSide(k);
