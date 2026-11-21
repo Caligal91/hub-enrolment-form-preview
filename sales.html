@@ -22,11 +22,14 @@ form{max-width:640px}small{color:#666}table{width:100%;border-collapse:collapse}
 <div id="vl" style="display:none;max-width:420px;margin:40px auto"><div class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Sales sign in</span></div></div>
 <h2>Sign in</h2><p style="color:#666">Sign in to send enrolment forms to parents. (Preview: any email and password works. Nothing is checked or saved.)</p>
 <form id="lf"><div class="form-group"><label>Email</label><input class="form-control" id="le" type="email" value="sales@example.com" required></div><div class="form-group"><label>Password</label><input class="form-control" id="lp" type="password" value="preview" required></div><button class="theme-btn" type="submit" style="width:100%">Sign in</button></form>
-<p style="margin-top:16px;font-size:13px"><a href="#" onclick="signIn('admin');return false">Preview as an admin instead</a> (sees the whole Hub sidebar and the terms editor)</p></div></div>
+<div style="margin-top:16px;font-size:13px;line-height:2"><b>Preview as:</b><br><a href="#" onclick="signIn('senior');return false">Senior Learning Consultant (Sales Manager)</a><br><a href="#" onclick="signIn('sales');return false">Learning Consultant (Sales Person)</a><br><a href="#" onclick="signIn('trainee');return false">Learning Consultant in Training (Sales Person in Training)</a><br><a href="#" onclick="signIn('admin');return false">Hub admin</a> (Sales team page and the terms editor)</div></div></div>
 <div id="vp" style="display:none" class="card-block"><h2 id="vph"></h2><p>This part of the Hub is not in the preview. A salesperson login never sees it.</p></div>
 <div id="vd" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span id="vds">Dashboard</span></div></div><h2 id="vdh">My dashboard</h2>
 <div id="cards" style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 18px"></div>
 <h3>Forms</h3><table id="dtab"></table><small>Preview with fake data. A salesperson sees only the forms they sent. An admin sees everyone, with a filter by salesperson.</small></div>
+<div id="vt" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Pioneers Tutoring &amp; Speech</span></div></div><h2>Sales team</h2><p style="max-width:760px">Salespeople sign in at /sales. Pick each person's title here. Only a Senior Learning Consultant (Sales Manager) can open everyone's dashboard.</p>
+<form onsubmit="return false" style="display:flex;gap:8px;flex-wrap:wrap;max-width:900px"><input class="form-control" placeholder="Full name" style="flex:1;min-width:160px"><input class="form-control" placeholder="Email (their sign-in)" style="flex:1;min-width:200px"><select class="form-control" style="flex:1;min-width:260px"><option>Learning Consultant (Sales Person)</option><option>Senior Learning Consultant (Sales Manager)</option><option>Learning Consultant in Training (Sales Person in Training)</option></select><button class="theme-btn" type="submit">Create account</button></form>
+<h3 style="margin-top:22px">Team</h3><table id="ttab"></table><small>Preview with fake people. Changing a title here changes what they see when they sign in.</small></div>
 <div id="vq" style="display:none" class="card-block"><div class="brand"><img src="logo.svg" alt="Pioneers"><div><b>Pioneers Enrolments Hub</b><span>Ask the sales bot</span></div></div><h2>Ask a question</h2><p style="color:#666">Ask about the sales training, the patter (what to say on a call), pricing, or how a form works. Answers come from the Pioneers sales training and patter.</p>
 <div id="qlog" style="max-width:720px;min-height:120px;border:1px solid #eee;border-radius:8px;padding:12px;background:#fafafa;margin-bottom:10px"><div style="color:#888">Try: "What do I say when a parent says it is too expensive?"</div></div>
 <form id="qf" style="display:flex;gap:8px;max-width:720px"><input class="form-control" id="qi" placeholder="Type your question" required><button class="theme-btn" type="submit">Ask</button></form><small>Preview: four questions are answered with real wording from the sales training (price, partner, cooling-off, LSS direct debit). In the Hub the bot answers any question from the whole sales training and quotes prices only from the enrolment forms.</small></div>
@@ -78,27 +81,37 @@ form{max-width:640px}small{color:#666}table{width:100%;border-collapse:collapse}
 var order=[];
 var ROLE='sales',ORDER_SENT=[];
 var DEMO=[['Mia Chen','Developmental Therapy','Sales: Jess','pending','Mon'],['Ravi Patel','LSS','Sales: Jess','signed','Tue'],['Tom Nguyen','Speech Pathology (NDIS)','Sales: Sam','signed','Tue'],['Lena Brown','Standard Tutoring','Sales: Sam','pending','Wed'],['Ava Smith','LSS Clinical','Sales: Jess','opened','Wed'],['Noah Lee','Developmental Therapy','Sales: Sam','signed','Thu']];
-var ME='Sales: Jess';
+var ME='Sales: Jess',VIEW='team';
+var TITLES={senior:'Senior Learning Consultant (Sales Manager)',sales:'Learning Consultant (Sales Person)',trainee:'Learning Consultant in Training (Sales Person in Training)'};
+var TEAM=[['Priya','senior'],['Jess','sales'],['Sam','trainee']];
+DEMO.push(['Zoe King','Standard Tutoring','Sales: Priya','signed','Mon'],['Omar Ali','LSS','Sales: Priya','pending','Thu'],['Eve Hall','Speech Pathology (NDIS)','Sales: Priya','signed','Fri']);
 function showDash(){views();document.getElementById('vd').style.display='block';
-var rows=DEMO.filter(function(r){return ROLE==='admin'||r[2]===ME}).concat(ORDER_SENT.map(function(o){return [o.title.split(':')[0],o.title.split(': ')[1]||'',ROLE==='admin'?ME:ME,'pending','Today']}));
-document.getElementById('vdh').textContent=ROLE==='admin'?'All sales dashboard':'My dashboard';
+var senior=ROLE==='senior',who=ROLE==='trainee'?'Sales: Sam':ME;
+var all=DEMO.concat(ORDER_SENT.map(function(o){return [o.title.split(':')[0],o.title.split(': ')[1]||'',ME,'pending','Today']}));
+var rows=all.filter(function(r){return ROLE==='admin'||(senior&&VIEW==='team')||(senior?r[2]==='Sales: '+VIEW:r[2]===who)});
+var h=ROLE==='admin'?'All sales dashboard':senior?(VIEW==='team'?'Whole team (cumulative)':VIEW):'My dashboard';
+document.getElementById('vdh').textContent=h;
 var c=function(l,v,col){return '<div style="flex:1;min-width:140px;border:1px solid #eee;border-top:4px solid '+col+';border-radius:8px;padding:10px 14px;background:#fff"><div style="font-size:26px;font-weight:800">'+v+'</div><small>'+l+'</small></div>'};
-var n=function(st){return rows.filter(function(r){return r[3]===st}).length};
-document.getElementById('cards').innerHTML=c('Sent this week',rows.length,'#F47A21')+c('Pending (not signed)',n('pending')+n('opened'),'#b07d00')+c('Signed this week',n('signed'),'#1a7f37')+c('Opened, not signed',n('opened'),'#2b6cb0');
+var n=function(st,rr){return (rr||rows).filter(function(r){return r[3]===st}).length};
+var pick=senior?'<div style="margin:10px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b>Viewing:</b><select class="form-control" style="max-width:320px" onchange="VIEW=this.value;showDash()"><option value="team"'+(VIEW==='team'?' selected':'')+'>Whole team (cumulative)</option>'+TEAM.map(function(t){return '<option'+(VIEW===t[0]?' selected':'')+' value="'+t[0]+'">'+t[0]+'</option>'}).join('')+'</select><small>You can open any salesperson\'s dashboard.</small></div>':'';
+var tt=senior&&VIEW==='team'?'<h3>Team, cumulative</h3><table><tr><th align=left>Salesperson</th><th align=left>Sent</th><th align=left>Pending</th><th align=left>Signed all time</th></tr>'+TEAM.map(function(t){var rr=all.filter(function(r){return r[2]==='Sales: '+t[0]});return '<tr><td>'+t[0]+' <small>('+TITLES[t[1]].split(' (')[0]+')</small></td><td>'+rr.length+'</td><td>'+(n('pending',rr)+n('opened',rr))+'</td><td><b>'+n('signed',rr)+'</b></td></tr>'}).join('')+'<tr style="background:#FFF6EF"><td><b>Team total</b></td><td><b>'+rows.length+'</b></td><td><b>'+(n('pending')+n('opened'))+'</b></td><td><b>'+n('signed')+'</b></td></tr></table>':'';
+document.getElementById('cards').innerHTML=pick+'<div style="display:flex;gap:12px;flex-wrap:wrap;width:100%">'+c('Sent this week',rows.length,'#F47A21')+c('Pending (not signed)',n('pending')+n('opened'),'#b07d00')+c('Signed this week',n('signed'),'#1a7f37')+c('Opened, not signed',n('opened'),'#2b6cb0')+(senior?c(VIEW==='team'?'Team signed (all time)':'Signed (all time)',n('signed')+3,'#6b46c1'):'')+'</div>'+tt;
 document.getElementById('dtab').innerHTML='<tr><th align=left>Parent</th><th align=left>Form</th><th align=left>Sent by</th><th align=left>Status</th><th align=left>Day</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2].replace('Sales: ','')+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>'}).join('')}
+function showTeam(){views();document.getElementById('vt').style.display='block';document.getElementById('ttab').innerHTML='<tr><th align=left>Name</th><th align=left>Title</th><th align=left>Status</th></tr>'+TEAM.map(function(t){return '<tr><td>'+t[0]+'</td><td><select class="form-control" style="max-width:340px;font-size:13px" onchange="">'+Object.keys(TITLES).map(function(k){return '<option'+(k===t[1]?' selected':'')+'>'+TITLES[k]+'</option>'}).join('')+'</select></td><td>On</td></tr>'}).join('')}
 
 function nav(items,active){return items.map(function(i){return '<a class="'+(i[0]===active?'on':'')+'" onclick="go(\''+i[0]+'\')">'+i[1]+'</a>'}).join('')}
-function views(){['vl','vp','v1','v2','v3','v4','vd','vq'].forEach(function(v){document.getElementById(v).style.display='none'})}
-function renderSide(active){var items=ROLE==='admin'?[['dash','Dashboard'],['stu','Students'],['send','Pioneers Enrolments Hub'],['terms','Enrolment Terms &amp; Conditions'],['msg','Messages']]:[['dash','My dashboard'],['send','Send enrolment forms'],['sent','Sent forms'],['ask','Ask a question']];
-document.getElementById('sb').innerHTML=nav(items,active)+'<div class="who">Signed in as<br><b style="display:inline;color:#fff;font-size:12px;margin:0">'+(ROLE==='admin'?'Alicia (admin)':'Sales person')+'</b><br><a onclick="signOut()" style="padding:6px 0">Sign out</a></div>'}
+function views(){['vl','vp','v1','v2','v3','v4','vd','vq','vt'].forEach(function(v){document.getElementById(v).style.display='none'})}
+function renderSide(active){var items=ROLE==='admin'?[['dash','Dashboard'],['stu','Students'],['send','Pioneers Enrolments Hub'],['terms','Enrolment Terms &amp; Conditions'],['team','Sales team'],['msg','Messages']]:[['dash','My dashboard'],['send','Send enrolment forms'],['sent','Sent forms'],['ask','Ask a question']];
+document.getElementById('sb').innerHTML=nav(items,active)+'<div class="who">Signed in as<br><b style="display:inline;color:#fff;font-size:12px;margin:0">'+(ROLE==='admin'?'Alicia (admin)':ROLE==='senior'?'Priya<br><span style="font-weight:normal">'+TITLES.senior+'</span>':ROLE==='trainee'?'Sam<br><span style="font-weight:normal">'+TITLES.trainee+'</span>':'Jess<br><span style="font-weight:normal">'+TITLES.sales+'</span>')+'</b><br><a onclick="signOut()" style="padding:6px 0">Sign out</a></div>'}
 function go(k){views();renderSide(k);
 if(k==='send'){document.getElementById('v1').style.display='block'}
 else if(k==='terms'){showTerms()}
 else if(k==='sent'){showSent()}
 else if(k==='dash'){showDash()}
+else if(k==='team'){showTeam()}
 else if(k==='ask'){document.getElementById('vq').style.display='block'}
 else{var n={stu:'Students',msg:'Messages'}[k];document.getElementById('vph').textContent=n;document.getElementById('vp').style.display='block'}}
-function signIn(r){ROLE=r||'sales';go('dash')}
+function signIn(r){ROLE=r||'sales';document.getElementById('side').style.display='block';VIEW='team';go('dash')}
 function signOut(){views();document.getElementById('side').style.display='none';document.getElementById('vl').style.display='block'}
 document.getElementById('lf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('side').style.display='block';signIn('sales')});
 function showSent(){document.getElementById('v4').style.display='block';var t=document.getElementById('sentl');
